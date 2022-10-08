@@ -137,7 +137,8 @@ Search for the following in the code below:
 
     align
     backslash              r"\" is ng use "\\""
-    concatination    use join not a loop
+    begin               ->> startswith
+    concatenation    use join not a loop
     ends
     endswith
     find
@@ -171,85 +172,18 @@ title
 import string
 import itertools
 import dis
-
-
 import sys
-sys.path.append( r"D:\Russ\0000\python00\python3\_examples"  )
-sys.path.append( r"../_examples"  )
+
 import ex_helpers
 
 ex_name    = "use as global pylint complains "
 
-# ----------------------------------------
-def ex_template():
-    ex_name  = "ex_template"  # end with ex_helpers.end_example( ex_name )
-    print( f"""{ex_helpers.begin_example( ex_name )} template showing"""
-          """ use of begin_example, end-example  ===============
-    """ )
-
-    print( "thats all folks" )
-
-    ex_helpers.end_example( ex_name )
-
-ex_template()
-
-
 # ex_helpers.info_about_obj( a_obj, msg = "for a_object:" )
 
 ex_name  = "ex_is_numeral"
-# ----------------------------------------
-def ex_is_numeral():
-
-    print( f"""\n\n
-    ======== {ex_name}(): copy and paste fix  ..... ===============
-    """ )
-
-
-
-    ex_helpers.end_example( ex_name )
-
-#     user_input = input("Enter your Age")
-# try:
-#     val = int(user_input)
-#     print("Input is an integer number. Number = ", val)
-# except ValueError:
-#     try:
-#         val = float(user_input)
-#         print("Input is a float  number. Number = ", val)
-#     except ValueError:
-#         print("No.. input is not a number. It's a string")
-# Output: Run Online
-
-
-# user_number  = input("Enter your number")
-# if( user_number.isdigit()):
-#     print("User input is Number ")
-# else:
-#     print("User input is string ")
-
-
-#  def is_number(s):
-#     try:
-#         float(s)
-#         return True
-#     except ValueError:
-#         pass
-
-#     try:
-#         import unicodedata
-#         unicodedata.numeric(s)
-#         return True
-#     except (TypeError, ValueError):
-#         pass
-
-# return False
-
-# """
-
 
 
 # ---------------- helper functions ---------------
-
 # ---- helper
 def print_with_comment( a_comment, a_string ):
     """
@@ -257,45 +191,24 @@ def print_with_comment( a_comment, a_string ):
     print the comment then on nets line the string, making its beginning and
     end clearer with >>><<<
     """
-    #print( "")
+    print( "" )
     print( a_comment )
     print( f"    >>>{a_string}<<<")   # >>>to make clear where string starts and stops <<<
 
-# # --------------- helper function -----------------------
-# def end_example( ex_name ):
-#     """
-#     what it says, read
-#     get a uniform end to all examples
-
-#     end_example( ex_name )
-#     """
-#     print ( f"\n\n-------------------- end of example {ex_name}  -----------------\n\n" )
-
-# # --------------- helper function -----------------------
-# def begin_example( ex_name ):
-#     """
-#     what it says, read
-#     get a uniform end to all examples
-
-#     end_example( ex_name )
-#     """
-
-#     return f"\n\n================= {ex_name}()"
 
 
 # ----  basics ------
-
-ex_name  = "ex_literals"
 # ----------------------------------------
 def ex_literals():
     """
     what it says, read
     """
-    global ex_name
-    print( f"""{ex_helpers.begin_example( ex_name )}, including across lines special characters ..... ===============
+    ex_name  = "ex_literals"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    including across lines special characters .....
     """ )
 
-    print
+    print()
     print( "Simple string literal, you can use single or double quotes")
     test_string  = "this is a string"
     print_with_comment( "basic double quoted string literal:", test_string )
@@ -310,7 +223,6 @@ def ex_literals():
     print( "    a raw string, the backslash not longer denotes an escape sequence")
     test_string  = r"an r string diables the backslash escape this is a string with a special character >>>\1<<<"
     print_with_comment( "a r quote or raw string:", test_string )
-
 
     print()
     print( "Strings may be added with a + sign, and using parens, the code may" )
@@ -345,7 +257,6 @@ def ex_literals():
     test_string      = (  f"no + sign {'inside braces'} with var a_string line 2 {1+1}" )
     print_with_comment( "\nTN lines in () no +... include an f-string", test_string )
 
-
     # same as above ???
     test_string  = (  "f-string: no + sign "
                       f"line 1 {1+1}"
@@ -358,13 +269,11 @@ def ex_literals():
                     line 2"""
     print_with_comment( "triple quotes give multiline and indent", test_string )
 
-
-
-    ex_helpers.end_example( ex_name )
+    ex_helpers.end_example( ex_name )  # not part of example, marks end
 
 #ex_literals()
-eval( f"{ex_name}()" )        # run it
-dis.dis( eval( ex_name ) )
+#eval( f"{ex_name}()" )        # run it
+#dis.dis( eval( ex_name ) )
 
 # ----------------------------------------
 ex_name  = "ex_str_commands"
@@ -374,7 +283,8 @@ def ex_str_commands():
 
     """
     global ex_name
-    print( f"""{ex_helpers.begin_example( ex_name )}  ===============
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    build strings to be used as commands to bash or sql....
     """ )
     # optimitized at compile time
 
@@ -399,38 +309,48 @@ def ex_str_commands():
 
     print( )
     print( "example looking for a home" )
-    print( "\nstrings may be added with a + and new lines created with a backslash n")
+    print( "\nstrings may be added with a +" + " and new lines created with a backslash n")
 
     ex_helpers.end_example( ex_name )
 
 
 #eval( f"{ex_name}()" )        # run it
 #dis.dis( eval( ex_name ) )
+#ex_str_commands()
+
 
 #----- lists  split partition join
 # ==========================================================
 def ex_misc():
-    ex_name  = "ex_misc"
-    print( f"""\n\n
-    ======== {ex_name}() character manipulation strip  ===============
+    ex_name  = "ex_misc"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    character manipulation strip
 
     """)
+    print( "\nstring.punctuation")
+    for ix_char, i_char in enumerate(  string.punctuation ):
+        print( f"{ix_char} >>{i_char}<<"  )
+
+    # string.punctuation same as remove ascii??
+
     # from tweet app
     remove_ascii        = "!\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"   # removable ascii
 
+    print( "\nAscii Char List ( special )")
+    for ix_char, i_char in enumerate( remove_ascii ):
+        print( f"{ix_char} >>{i_char}<<"  )
+
+    print( "\n\nlets try itterating with replace and ascii list")
+    a_string   = "*the quick ? brown + or - fox !"
+    print( f"string before >>{a_string}<<" )
+
+    b_string = a_string
     for i_char in remove_ascii:
-        print( i_char, end = " <> "  )
+        b_string   = b_string.replace( i_char, "" )  # must be same string on both sides !
 
-    print( "\n\nlets try itterating with replace ")
-    word   = "*the quick ? brown + or - fox !"
-    print( f"word dressed {word}" )
+    print( f"string after >>{b_string}<<" )
 
-    for i_char in remove_ascii:
-        #print( i_char, end = " <> "  )
-        word   = word.replace( i_char, "" )
-
-    print( f"word replaced {word}" )
-
+    #----
     print( "\n\nlets try with strip -- works at ends ")
 
     # works only at ends perhaps apply at word level
@@ -440,62 +360,65 @@ def ex_misc():
 
     print( f"word stripped {word}" )
 
-    print ( f"================= end of example {ex_name} ) ======================\n\n" )
+    ex_helpers.end_example( ex_name )  # not part of example, marks end
 
-#ex_misc()
-
+# ex_misc()
 
 # ==========================================================
 def ex_join():
-    ex_name  = "ex_join"
-    print( f"""\n\n
-    ======== {ex_name}(), including across lines special characters ..... ===============
+    ex_name  = "ex_join"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    including across lines special characters .....
     """ )
-    sentence    = ['this','is','a','sentence']
-    new         = '-'.join(sentence)
-    print( new )
-    print ( f"================= end of example {ex_name} ) ======================\n\n" )
+    string_list    = ['this','is','a','sentence']
+    join_string    = "-" # may be 0 to n char long
+    joined         = join_string.join(string_list)
+    print( f"join list >>{string_list}<<")
+    print( f"with the string >>{join_string}<<")
+    print(  f"gives >>{joined}<<" )
+    ex_helpers.end_example( ex_name )  # not part of example, marks end
 
 #ex_join()
-
 
 
 # ====================== helper ====================================
 def part_report( to_partition, partition_with ):
     """
-
-
-
+    helper to show result of partition function
+    read it
     """
-
     print( "\nPartition:")
     partition_0, partition_1, partition_2     =  to_partition.partition( partition_with )
-    print( f"    partion target >{to_partition}<")
-    print( f"    partition on {partition_with} >>>>>>partition tuple >>>>>>  0>{partition_0}<  1>{partition_1}<  2>{partition_2}<" )
+    print( f"    partion target >>{to_partition}<<")
+    print( f"    partition on >>{partition_with}<< \n        ----partition --- "
+           f"0>>{partition_0}<<  1>>{partition_1}<<  2>>{partition_2}<<" )
 
 # ====================== helper ====================================
 def rpart_report( to_partition, partition_with ):
     """
-    this is an example read it
+    helper to show result of rpartition function
+    read it
     """
 
     print( "\nRight Partition:")
     partition_0, partition_1, partition_2     =  to_partition.rpartition( partition_with )
-    print( f"    partion target >{to_partition}<")
-    print( f"    partition on {partition_with} >>>>>>partition tuple >>>>>>  0>{partition_0}<  1>{partition_1}<  2>{partition_2}<" )
+    print( f"    partion target >>{to_partition}<<")
+    print( f"    partition on >>{partition_with}<< \n        ----partition --- "
+           f"0>>{partition_0}<<  1>>{partition_1}<<  2>>{partition_2}<<" )
 
-# ---- breaking up  strings
+# --- breaking up  strings
 # ----------------------------------------
 def ex_partition():
     """
     this is an example read it
     """
-    ex_name  = "ex_partition"
-    print( f"""\n\n
-    ======== {ex_name}() seperate on a character how different from split  ===============
-    Simply put, split will split the string at any occurrence of the given argument, while partition will only split the string
-    at the first occurrence of the given argument and will return a 3-tuple with the given argument as the middle value.
-    see also rpartition
+    ex_name  = "ex_partition"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    seperate string into 3 parts based on a given string
+        seperate on a character how different from split
+        Simply put, split will split the string at any occurrence of the given argument, while partition will only split the string
+        at the first occurrence of the given argument and will return a 3-tuple with the given argument as the middle value.
+        see also rpartition
 
     """)
 
@@ -558,10 +481,12 @@ def ex_partition():
     partition_with    = "https"
     rpart_report( word,  partition_with )
 
-    print ( f"================= end of example {ex_name} ) ======================\n\n" )
+    ex_helpers.end_example( ex_name )  # not part of example, marks end
+
+#ex_partition()
 
 # ----------------------------------------
-def leading_spaces_1( a_string ):
+def count_leading_spaces_1( a_string ):
     """
     what it says, read
     https://stackoverflow.com/questions/13648813/what-is-the-pythonic-way-to-count-the-leading-spaces-in-a-string
@@ -571,7 +496,7 @@ def leading_spaces_1( a_string ):
     return leading_spaces
 
 # ----------------------------------------
-def leading_spaces_2( a_string ):
+def count_leading_spaces_2( a_string ):
     """
     what it says, read
     return:
@@ -588,30 +513,29 @@ def ex_count_leading_spaces():
     this is an example read it
     """
     ex_name  = "ex_count_leading_spaces"
-    print( f"""{ex_helpers.begin_example( ex_name )} demo simple but useful ===============
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    demo simple but perhaps useful
     """)
-
     a_string      = "     i have n leading spaces"
-    eval_string   = f"leading spaces in a string = leading_spaces_1( a_string) = {leading_spaces_1( a_string)}"
+    eval_string   = f"leading spaces in >>{a_string}<< =\n leading_spaces_1( a_string) = {count_leading_spaces_1( a_string)}"
     print( eval_string )
     #ex_helpers.eval_it( eval_string, msg = None )
 
-    eval_string   = f"leading spaces in a string = leading_spaces_2( a_string) = {leading_spaces_2( a_string)}"
+    eval_string   = f"leading spaces in >>{a_string}<< =\n leading_spaces_2( a_string) = {count_leading_spaces_2( a_string)}"
     print( eval_string )
 
     ex_helpers.end_example( ex_name )
-
 
 #ex_count_leading_spaces()
 
 # ----------------------------------------
 def ex_tokenize():
     """
-    this is an example read it
+    partition and join nothing new ----this is an example; read it
     """
-    ex_name  = "ex_tokenize"
-    print( f"""\n\n
-    ======== {ex_name}() looks like ex_partition() ??===============
+    ex_name  = "ex_tokenize"      # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    looks like ex_partition() ??===============
     """)
 
     sentence    = ['this.','is','a.','sentence']
@@ -632,8 +556,9 @@ def ex_tokenize():
 
 # ----------------------------------------
 def ex_split():
-    print( """
-    ================ ex_split()  rsplit ===============
+    ex_name  = "ex_copy_no_content"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    rsplit
     see also ex_string_split which may be moved here
     also max occur
     """ )
@@ -660,25 +585,13 @@ def ex_split():
 
 # ---- find replace catogorize  strings
 
-# ----------------------------------------
-ex_name  = "ex_copy_no_content"
-def ex_copy_no_content():
 
-
-
-    print( f"""{ex_helpers.begin_example( ex_name )}   -> no copy """ )
-
-
-
-
-
-
-ex_name  = "ex_finding"
 # ----------------------------------------
 def ex_finding():
     global ex_name
-
-    print( f"""{ex_helpers.begin_example( ex_name )} find, begins with = startwith  ( in  contains: use find  )..... ===============
+    ex_name     = "ex_finding"
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    find, begins with = startwith  ( in  contains: use find  )..... ===============
     How to Search within a String in Python
     https://www.dummies.com/programming/python/how-to-search-within-a-string-in-python/
     there is no in method or contains --- use find
@@ -757,7 +670,7 @@ def ex_finding():
 
     a_string    = "*>bat and then some more stuff "
     print( a_string )
-    print(( a_string.startswith( "*>bat" ) ))  #str, beg=0,end=len(string));
+    print(( a_string.startswith( "*>bat" ) ))  #str, beg=0,end=len(string));  is beginswith
     # do not use is "" use == ""
     #if not my_string:
     #However, you may want to strip white space because:
@@ -776,17 +689,16 @@ def ex_finding():
 
     ex_helpers.end_example( ex_name )
 
-#ex_finding()
-eval( f"{ex_name}()" )        # run it
+ex_finding()
+#eval( f"{ex_name}()" )        # run it
 #dis.dis( eval( ex_name ) )    # disassemble it
 
 
 # ----------------------------------------
 def ex_rfinding():
-    print( """
-    ================ ex_rfinding(), and rpartition  ..... ===============
-
-
+    ex_name  = "ex_copy_no_content"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    and rpartition  .....
     """ )
 
     """
@@ -856,11 +768,10 @@ def ex_rfinding():
 
 #    print(( str1 [find1:find1+3] ))
 # ----------- helper ---------------------
-
 def  if_startswith_list( a_line ):
     """
     check if string starts with anything from a list of items
-
+    helper for ??
     """
 
     check_list  = [ "!", "#",]
@@ -872,11 +783,11 @@ def  if_startswith_list( a_line ):
 
     return False
 
-
 # ----------------------------------------
 def ex_findreplace():
-    print( """
-    ================ ex_findreplace(), find, replace ..... can delete if replace with "" ===============
+    ex_name  = "ex_findreplace"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    find, replace ..... can delete if replace with "" ===============
     but strings are immutable so it produces a new string not mututate an old one
     """ )
 
@@ -899,6 +810,8 @@ def ex_findreplace():
     print( "see translate" )
     #s .translate(table[, deletechars]);
     #s = s.replace("World", "")
+    ex_helpers.end_example( ex_name )  # not part of example, marks end
+
 
 #ex_findreplace()
 
@@ -907,8 +820,9 @@ ex_name  = "ex_upper_lower"
 def ex_upper_lower():
     global ex_name
 
-    print( f"""{ex_helpers.begin_example( ex_name )}  convert case upper lower capitalize title """
-           """ ===============
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    convert case upper lower capitalize title
+
     """ )
 
     a_string   = "FOR EXAMPLE: this is originally lower case "
@@ -934,17 +848,18 @@ def ex_upper_lower():
     ex_helpers.end_example( ex_name )
 
 #ex_upper_lower()
-eval( f"{ex_name}()" )         # run it
+#eval( f"{ex_name}()" )         # run it
 #dis.dis( eval( ex_name ) )    # disassemble it
 
 # ==========================================================
-def ex_3():
-    print( """============= ex_3 ===================== moved to split and stripp.py ??
+def ex_strip_split():
+    ex_name  = "ex_strip_split"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    moved to split and stripp.py ??
     this is an example of string spliting and stripping
     should probably be moved to ex_string_strip
     strip is trim, there is a lstrip and rstrip, you can sepify the characters
     """ )
-
 
     str_0 = "   Line1-abcdef \nLine2-abc \nLine4-abcd    "
 
@@ -968,26 +883,10 @@ def ex_3():
 #        from the beginning and the end of the string (default whitespace characters).
 
         print( junk_1 )
+    ex_helpers.end_example( ex_name )  # not part of example, marks end
 
+ex_strip_split()
 
-
-
-
-# ==========================================================
-def ex_5():
-    print ( """================ ex_5 ===============
-    seems to be automatic concatination maybe at compile?
-    """ )
-
-    # apparently auto join or even just a literal line continuation
-    add_ph       = (    "insert into pressure_history"
-                                "( ph_timestamp, ph_pressure_a, ph_well_on ) "
-                                "values (%s, %s, %s)"                         )
-    print( add_ph )
-    print(( type( add_ph ) ))
-
-
-# ex_5()
 # ---------------- helper ------------------------
 def is_not_empty( a_string ):
     """
@@ -999,8 +898,8 @@ def is_not_empty( a_string ):
 
 # ----------------------------------------
 def ex_truth_of_strings():
-    print( """
-    ================ ex_truth_of_strings() ===============
+    ex_name  = "ex_copy_no_content"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
     """ )
 
     # do not use is "" use == ""
@@ -1023,9 +922,122 @@ def ex_truth_of_strings():
 
 #ex_truth_of_strings()
 
+# ---- applications
+
+
 # ----------------------------------------
+def substitute_into_string( a_string, sub_list ):
+    """
+    seem ok
 
 
+    """
+    for i_sub in sub_list:
+        a_string  = a_string.replace( *i_sub )   # !! even if not found
+
+    return a_string
+
+# ----------------------------------------
+def substitute_into_string_list( a_string_list, sub_list ):
+    """
+    really just for testing
+
+
+    """
+    # !! switch to list comp
+    for ix_string, i_string in enumerate( a_string_list ):
+        i_string = substitute_into_string( i_string, sub_list )
+        a_string_list[ ix_string ] = i_string
+
+    return a_string_list
+
+
+
+# ----------------------------------------
+def ex_substitute_into():
+    """
+    what it says, read
+    """
+    ex_name  = "ex_substitute_into"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    a little application function; see code
+    """ )
+    subs       = [ ("<old>",   "new" ),
+                   ("<old_1>", "new 1" ),
+                   ("<old_2>", "new two" ),
+                 ]
+    print( f"use the following list of substutions: \n {subs}" )
+
+    a_string     = "i was too <old> but later i grew to <old_2> years"
+    print( f"\ninitial string >>{a_string}<<")
+
+    new_string   = substitute_into_string( a_string, subs )
+    print( f"becomes        >>{new_string}<<")
+
+    print( )
+    print( "next apply list to a list of strings")
+    a_string_list   = [ a_string,
+                        a_string,
+                        "i was too <old_1> but later i grew to <old> years",
+                       ]
+
+    new_list     = substitute_into_string_list( a_string_list, subs )
+
+    print( new_list )
+
+    ex_helpers.end_example( ex_name )  # not part of example, marks end
+
+
+#ex_substitute_into()
+
+# ----------------------------------------
+def ex_is_numeral():
+    ex_name  = "ex_is_numeral"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    copy and paste fix  .....
+    """ )
+
+    ex_helpers.end_example( ex_name )
+
+#     user_input = input("Enter your Age")
+# try:
+#     val = int(user_input)
+#     print("Input is an integer number. Number = ", val)
+# except ValueError:
+#     try:
+#         val = float(user_input)
+#         print("Input is a float  number. Number = ", val)
+#     except ValueError:
+#         print("No.. input is not a number. It's a string")
+# Output: Run Online
+
+
+# user_number  = input("Enter your number")
+# if( user_number.isdigit()):
+#     print("User input is Number ")
+# else:
+#     print("User input is string ")
+
+
+#  def is_number(s):
+#     try:
+#         float(s)
+#         return True
+#     except ValueError:
+#         pass
+
+#     try:
+#         import unicodedata
+#         unicodedata.numeric(s)
+#         return True
+#     except (TypeError, ValueError):
+#         pass
+
+# return False
+
+# """
+
+#ex_is_numeral()
 
 
 

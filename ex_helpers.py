@@ -9,19 +9,21 @@ ex_helpers.info_about_obj( a_obj, msg = "for a_object:" )
 
 
 """
-from pandas import Series, DataFrame
-import pandas as pd
-import numpy as np
-import sys
+from   pandas import Series, DataFrame
+#import pandas as pd
+#import numpy as np
+#import sys
 import pprint
 import time
 import collections
 
-
+import sys
+sys.path.append( r"D:/Russ/0000/python00/python3/_projects/rsh"  )   # for sensitive data
+import data
 
 """
 import sys
-sys.path.append( r"D:\Russ\0000\python00\python3\_examples"  )
+sys.path.append( r"D:/Russ/0000/python00/python3/_examples"  )
 import ex_helpers
 info_about_obj( a_obj, msg = "for a_object:" )
 
@@ -31,8 +33,9 @@ info_about_obj( a_obj, msg = "for a_object:" )
 indent_0    = "   "
 
 # ----------------------------------------
-class PrintStr( object ):
+class PrintStr(  ):
     """
+    yes a purpose would be nice
     print_str = PrintStr( )
     print_str.str
     print_str.print( )
@@ -61,8 +64,17 @@ def begin_example( ex_name ):
 
     end_example( ex_name )
     """
+    return f"\n\n=========== {ex_name}(): =========== "
 
-    return f"\n\n================= {ex_name}():"
+# --------------- helper function -----------------------
+def get_data( a_key ):
+    """
+    what it says, read
+    this gets private data from a directory others should not have
+    """
+    rsh_data   = data.get_data( a_key )
+    # print( f"{a_key} {rsh_data}" )
+    return rsh_data
 
 # --------------- helper function -----------------------
 def end_example( ex_name ):
@@ -72,7 +84,22 @@ def end_example( ex_name ):
 
     end_example( ex_name )
     """
-    print ( f"\n\n-------------------- end of example {ex_name}  -----------------\n\n" )
+    print ( f"\n\n----- end of example {ex_name}() ----- \n\n" )
+
+# ----------------------------------------
+def ex_template():
+    ex_name  = "ex_template"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    print( f"""{ex_helpers.begin_example( ex_name )}
+    template showing
+    use of begin_example, end-example  =
+    sys.path.append( "../"  )
+    """ )
+
+    print( "thats all folks" )
+
+    ex_helpers.end_example( ex_name )  # not part of example, marks end
+
+#ex_template()
 
 
 # ----------------------------------------
@@ -81,10 +108,20 @@ class CodeTimer():
     !! consider then store and do ratios
     !! consider a calibrate for empty start stop
     !! what about time clock
+    import ex_helpers
+    a_code_timer = ex_helpers.CodeTimer()
+    a_code_timer.start()
+    # something
+    a_code_timer.stop()
+    a_code_timer.report( ver = ""  )
+    # repeat
+
+    a_code_timer.report_all()
+
     """
     def __init__( self, ):
         self.Timed      = collections.namedtuple( "Timed", "msg  timing" )
-        
+
         self.reset()
 
     # ----------------------------------------
@@ -94,7 +131,7 @@ class CodeTimer():
         mutates self
         """
         self.records      = []
-        self.start()
+        #self.start()
 
     # ----------------------------------------
     def start( self, msg = None ):
@@ -106,7 +143,8 @@ class CodeTimer():
         self.msg          = msg
         self.time_start   = time.time()
         self.perf_start   = time.perf_counter()
-      
+        self.time_end     = self.time_start
+        self.perf_end     = self.perf_start
 
     # ----------------------------------------
     def stop( self, rpt = True ):
@@ -117,12 +155,11 @@ class CodeTimer():
         """
         self.time_end   = time.time()
         self.perf_end   = time.perf_counter()
- 
-        
+
         perf_elapsed    = self.perf_end - self.perf_start
-        
+
         a_record        = self.Timed( msg = self.msg,  timing =  perf_elapsed )
-        
+
         self.records.append( a_record )
 
         if rpt:
@@ -132,49 +169,56 @@ class CodeTimer():
     def report( self, ver = ""  ):
         """
         call after end of timing
-        ver  just an idea about version  time or perf_counter 
+        ver  just an idea about version  time or perf_counter
         mutates self
 
         """
         print( self.msg )
 
-        msg   = ( f"    by time:         {self.time_end - self.time_start} seconds" )
-        print( msg )
+        # msg   = ( f"    by time:         {self.time_end - self.time_start} seconds" )
+        # print( msg )
 
         msg   = ( f"    by perf_counter: {self.perf_end - self.perf_start} seconds" )
         print( msg )
 
-    
     # ----------------------------------------
     def report_all( self,   ):
         """
         call after set of timings for a final report
-         
-        
+
+
         """
+        print( "\nSummary of timings:")
+
         base_timing = None
         for a_record in self.records:
-            pass
             a_msg       = a_record.msg
             a_timing    = a_record.timing
             if base_timing is None:
                 base_timing = a_timing
-            
-            relative_timing  = a_timing / base_timing 
-            timing_msg   =  f"{a_msg:100}  perf_time = {a_timing} relative time = {relative_timing}"
+
+            relative_timing  = a_timing / base_timing
+            # need better formatting
+            timing_msg   =  f"{a_msg}  perf_time = {a_timing} relative time = {relative_timing}"
             print( timing_msg )
-        
 
 # ----------------------------------------
 def  info_about_obj( a_obj, msg = "for a_object:" ):
     """
     prints information about objects
-    has some isinstance branching to get the right
-    display
+    has some isinstance branching to get the right  display
     this branchches to right function for ease of calling
-
+    args:
+        a_obj    an object to examine
+        msg      msg to be printed along with the other info
+    Example Call:
+        ex_helpers.info_about_dict( a_obj, msg = "info_about_dict:" )
+    sort of a pretty print +
     """
-    if  isinstance( a_obj, Series ):
+    if  isinstance( a_obj, list ):
+        info_about_list( a_obj, msg )
+
+    elif  isinstance( a_obj, Series ):
         info_about_series( a_obj, msg )
 
     elif isinstance( a_obj, DataFrame ):
@@ -186,13 +230,12 @@ def  info_about_obj( a_obj, msg = "for a_object:" ):
     elif isinstance( a_obj, DataFrame ):
         info_about_dataframe( a_obj, msg )
 
-    elif isinstance( a_obj, list ):
-        info_about_list( a_obj, msg )
-
     elif isinstance( a_obj, DataFrame ):
         info_about_dataframe( a_obj, msg )
 
     else:
+        info_about_obj
+        print( f"\n!!!! info_about_obj ---- did not identify object" )
         print( f"\nfor msg = {msg} object is of Type {type(a_obj)}" )
         print( f">{a_obj}<")
         print( f"type is = { str( type(a_obj) ) } \n     str     = {str( a_obj )} \n     repr    = {repr(a_obj )}" )
@@ -201,23 +244,28 @@ def  info_about_obj( a_obj, msg = "for a_object:" ):
 
 # ----------------------------------------
 def  info_about_series( a_series, msg = "for a_series:" ):
+    """
+    another info about function
+    read
+    """
     if  isinstance( a_series, Series ):
         print( f"\nmsg {msg}" )
         print( f"     series: >{a_series}<" )
         print( f"     a_series.values: >{a_series.values}<" )
         print( f"     a_series.index: >{a_series.index}<" )
     else:
-        print( f"\nfor msg = {msg} object is not an instance of Seriesbut is {type(a_obj)}" )
+        print( f"\nfor msg = {msg} object is not an instance of Seriesbut is {type(a_series)}" )
     print( "------\n")
 
 # ----------------------------------------
 def  info_about_dataframe( a_obj, msg = "for a DataFrame:" ):
+    """
+    another info about function
+    read
+    """
     if  isinstance( a_obj, DataFrame ):
         print( f"\nmsg {msg}" )
         print( f"     DataFrame: >{a_obj}<" )
-
-
-
 
         print( f"     dataframe.values: >{a_obj.values}<" )
         # print( f"     a_series.index: >{a_series.index}<" )
@@ -229,7 +277,6 @@ def  info_about_dataframe( a_obj, msg = "for a DataFrame:" ):
 # ----------------------------------------
 def str_about_dict( a_obj, msg = "for a dict:", starting_indent = "" ):
     """
-
     Args:
         a_obj (TYPE): DESCRIPTION.
         msg (TYPE, optional): DESCRIPTION. Defaults to "for a dict:".
@@ -238,7 +285,6 @@ def str_about_dict( a_obj, msg = "for a dict:", starting_indent = "" ):
         str
 
     """
-
     ret_str   = f"{starting_indent}{msg}"
 
     if  isinstance( a_obj, dict ):
@@ -246,8 +292,8 @@ def str_about_dict( a_obj, msg = "for a dict:", starting_indent = "" ):
         #ret_str   =  f"\nmsg {msg}" )
         #print( f"     Dict: >{a_obj}<" )
         ret_str   =  f"{ret_str}\n{starting_indent}dict list --------->"
-        for  key, value in a_obj.items():
-             ret_str   =  f"{ret_str}\n{starting_indent}{indent_0} {key}: {value}"
+        for key, value in a_obj.items():
+            ret_str   =  f"{ret_str}\n{starting_indent}{indent_0} {key}: {value}"
 
         #print( f"     dataframe.values: >{a_obj.values}<" )
         # print( f"     a_series.index: >{a_series.index}<" )
@@ -257,16 +303,29 @@ def str_about_dict( a_obj, msg = "for a dict:", starting_indent = "" ):
 
     return ret_str
 
+# ---- helper function
+def print_double_bar_sep( ):
+    """
+    helpers should have some minimal doc string
+
+    prints a "double bar" across output
+    read it
+    """
+    print( "\n" + 50 * "=" + "\n")
+
+
+
 # ----------------------------------------
 def  info_about_dict( a_obj, msg = "for a dict:" ):
     """
-
     Args:
-        a_obj (TYPE): DESCRIPTION.
+        a_obj  a_dict
         msg (TYPE, optional): DESCRIPTION. Defaults to "for a dict:".
 
     Returns:
-        None.
+        debug string for dict
+    Example Call:
+        ex_helpers.info_about_dict( a_obj, msg = "info_about_dict:" )
 
     """
     print_str = PrintStr( )
@@ -277,7 +336,7 @@ def  info_about_dict( a_obj, msg = "for a dict:" ):
         #print( f"     Dict: >{a_obj}<" )
         print_str.print( "dict list --------->" )
         for  key, value in a_obj.items():
-             print_str.print( f"{key}: {value}" )
+            print_str.print( f"{key}: {value}" )
 
         #print( f"     dataframe.values: >{a_obj.values}<" )
         # print( f"     a_series.index: >{a_series.index}<" )
@@ -290,14 +349,26 @@ def  info_about_dict( a_obj, msg = "for a dict:" ):
 
 # ----------------------------------------
 def info_about_list( a_obj, msg = "for a list:" ):
+    """
+    another info about function
+    read
+    consider pretty print
+    """
     if  isinstance( a_obj, list ):
         print( f"\nmsg: {msg}" )
         #print( f"     Dict: >{a_obj}<" )
         print( f"length of list is: {len( a_obj )}")
         print( "list --------->" )
+        ix = 0
+        for i_list in a_obj:
+            print( f"** {ix} {i_list}" )
+            ix += 1
+            #print( ix )
+            if ix > 20:
+                break
+        else:
+            print( "and more items.... " )
 
-        for  i_list in a_obj:
-             print( f"** {i_list}" )
 
     else:
         print( f"\nfor msg = {msg} object is not an instance of list but is a {type(a_obj)}" )
@@ -307,7 +378,8 @@ def info_about_list( a_obj, msg = "for a list:" ):
 # ----------------------------------------
 def info_about_unicode( a_obj, msg = None ):
     """
-
+    another info about function
+    read
     """
     if msg is None:
         msg = f"info about a {type( a_obj)}"
@@ -323,6 +395,10 @@ def info_about_unicode( a_obj, msg = None ):
 
 # ----------------------------------------
 def info_about_unicode_str( a_obj, msg = "for a unicode for a str:" ):
+    """
+    another info about function
+    read
+    """
     if  isinstance( a_obj, str ):
         print( f"\nmsg: {msg}" )
         #print( f"     Dict: >{a_obj}<" )
@@ -370,7 +446,6 @@ def info_about_bytes( a_obj, msg = "for a unicode for a bytes:" ):
     print( "------\n")
 
 
-
 # --------------------- helper -------------------------
 def show_timedelta( delta ):
 
@@ -394,44 +469,77 @@ def show_timedelta( delta ):
 
 # ---- eval which is best ?? newest at top see test_helpers
 
+
 # ----------------------------------------
-def eval_and_print( msg = None, values = None, eval_string= "nothing to eval", print_flag = True ):
+def eval_and_print( msg          = None,
+                    code         = "'nothing to eval'",
+                    as_locals    = None,   # locals() # normally locals()
+                    as_globals   = None,
+                    print_flag   = True ):
+
     """
-    show a string and print what it evals to.
-    ex_helpers.eval_it( something_to_eval, msg_defaults_to_None )
-    use like this
-    ex_helpers.print_eval( a_string, gl = globals(), lo = locals() )
+    currently best, perhaps become only
+    briefly: show a string and print and retrun what it evals to.
+       for more info see arguments
+       ex_helpers.eval_and_print(   msg          ="from index to end",
+                                    code         = "a_string[ 1: ]",
+                                    as_locals    = locals(),   # normally locals for the evel
+                                    as_globals   = None,
+                                    print_flag   = True )
+
+       if an exception occurs this will swallow it and report
+    use as shown in:
+        examples in test_helpers.py
     Args:
-        eval_string (TYPE): DESCRIPTION.
-        msg (TYPE, optional): DESCRIPTION. Defaults to None.
+        msg             = message to be printed
+        as_globals      = globals to use may be globals()
+        as_values       = a dict: lists symbolic value to be used by eval as locals  locals()
+        code            = string of code to be run/evaluated
+        print_flag      = True to print msg and the evaluation
 
     Returns:
-        None.
+        result of evaluation
 
     """
-    ret    = eval( eval_string, None, values )
-    
-    if msg is None:
-        #msg  = f"Eval the string >{eval_string}<"
-        msg  = "Eval the string"
+    indent   = "    "
+    str      = "\n"
+    if msg is not None:
+        str = f"{str}{msg}:\n{code}"
     else:
-        #msg  = f"Eval the string {msg} >{eval_string}<"
-        msg  = f"Eval the string {msg}"
-        
-        
+        str     = f'{code} ==>'
+
+    try:
+        eval_to    = eval( code, as_globals, as_locals )
+    except Exception as an_exception:
+        #ret        = f"eval caused exception {an_exception}"
+        str        = f'{str}\n{indent}eval caused exception {an_exception}'
+    else:  # no exception
+        str        = f'{str}\n{indent}>>{eval_to}<<'
+    # if msg is None:
+    #     #msg  = f"Eval the string >{code}<"
+    #     msg  = "Eval a string"
+    # else:
+    #     #msg  = f"Eval the string {msg} >{code}<"
+    #     msg  = f"Eval a string: {msg}"
+
     if print_flag:
-        
-        print( msg )
-        print( eval_string )
-        print( ret )
+        print( str )
+        # print( msg )
+        # print( f"{code} =>" )
+        # print( f">>{ret}<<" )
+
+        # # work on this next more look at string instead of print
+        # print( ">>", )
+        # pprint.pprint( ret, )
+        # print( "<<")
+
     # eval( eval_string )
     # next is not really useful, eval returns None ( at least in some cases )
     # this next does run the code again in eval_string
     #print(( eval_string, " ==> ", str( eval( eval_string )) ))
     # print( f"eval_string  ====>  {eval( eval_string)}" )
-    
-    return( ret )
 
+    return( str )
 
 
 # ----------------------------------------
@@ -468,7 +576,7 @@ def eval_it( eval_string, msg = None ):
         msg  = "Eval the string"
     else:
         #msg  = f"Eval the string {msg} >{eval_string}<"
-        msg  = f"Eval the string {msg}"
+        msg  = f"Eval the string: {msg}"
     print( msg  )
     # eval( eval_string )
     # next is not really useful, eval returns None ( at least in some cases )
@@ -483,8 +591,6 @@ def ex_eval():
     """ )
     a_string = "print('hi there')"
     a_string = " 2 + 3"
-
-
 
 
     # # a_num seems to be out of scope
