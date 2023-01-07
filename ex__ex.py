@@ -1,103 +1,111 @@
 # -*- coding: utf-8 -*-
 
 """"
-This is a meta example file to explain the layout of example files:
-some content taken from a version of ex_string.py
+This is a meta example file to explain the layout of others example files:
 
-content explanations in { ---- text ----}
+content explanations in {---- text ----}
 
-{--- begin with a brief purpose of the file  and its status ex: ----}
+{---- begin with a brief purpose of the file  and its status
+     the following is taken from ex.string, then edited down ----}
 
-What:
-    String examples
-Status:
-    draft, ok draft but possibly useful
+
+Purpose:   String examples
+           Some applies to other list like objects and itterables
+
+Status: draft, ok draft but possibly useful
+
+See Also:
+    ex_f_string.py
 
 {--- search section, suggest key words for fruitful search comments to right
-     following from ex_string.py but examples are imcomplete ----}
-
+     following from ex_string.py  ----}
 
 Search for the following in the code below:
-    Some applies to other lists and itterables
+
+    def ex_        for the beginning of an example
 
     align
-    backslash                r"\" is ng use "\\""
-    concatination            use join not a loop or f_strings
-    ends
+    backslash              r"\" is ng use "\\""
+    begin                  ->> startswith
+    ...
 
+Reference:
 
+    see ex_unicode.py for dealing with unicode conversion
+    *>shell     D:/Russ/0000/python00/python3/_examples/ex_unicode.py
 
+    #>>>>>python example string  see also for snipping and splitting
+    #https://docs.python.org/2/library/string.html
 
-
+    ...
 
 """
 
-
-
-
-# { ----  generally all imports at top ---- }
+# {----  generally all imports at top ----}
 
 import sys
 import dis
 
-
-import ex_helpers       # this has rouines to help in showing examples
-
+import ex_helpers       # this has routines to help in showing examples
 
 # {---- files may contain helper functions that help with the example
 # but are not really part of them,
-# an eample here, not a particularlly useful one does not begin with ex_
+# an example here, not a particularly useful one does 
+# helpers do not begin with ex_
 # ----}
 
-# ---- helper function
-def print_double_bar_sep( ):
+def foo():
     """
-    helpers should have some minimal doc string
-
-    prints a "double bar" across output
-    read it
+    a dummy helper function
     """
-    print( "\n" + 50 * "=" + "\n")
+    return 42
 
 # ----------------------------------------
 # {---- ex_with_no_content follows, there is no content just standard starting
 #   and ending code from ex_helpers which help identify console output
-#    all examples begin with ex_
+#   all examples begin with ex_
+#   note that the name needs to be copied into the example in a few places
 # ----}
 # ----------------------------------------
 def ex_with_no_content():
-    ex_name  = "ex_copy_no_content"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_with_no_content"   # {---- end with >>  ex_helpers.end_example( ex_name ) ----}
     print( f"""{ex_helpers.begin_example( ex_name )}
           room for more content
           """ )
 
-    # {---- this has no content, you would add it here
+    # {---- this example has no content, you would add it here
     # we will use the helper print_double_bar_sep()
     # ----}
 
-    print_double_bar_sep()
+    ex_helpers.end_example( ex_name )  #  {---- not part of example, marks end  ----}
 
-    ex_helpers.end_example( ex_name )  # not part of example, marks end
+#ex_with_no_content()    # {---- comment out this line to stop example from running ----}
 
-ex_with_no_content()    # comment out this line to stop example from running
-
-#eval( f"{ex_name}()" )         # run it
-#dis.dis( eval( ex_name ) )    # disassemble it
+# other things to do with an example
+#eval( "ex_with_no_content()" )    # {---- run it -- may need to add locals or globals? ----}
+#dis.dis( ex_with_no_content  )    # {---- disassemble it----}
 
 #----------------------------------------
-
-# ----------------------------------------
-def ex_with_no_content2():
-    ex_name  = "ex_with_no_content2"
+def ex_using_eval_and_print():
+    ex_name  = "ex_using_eval_and_print"   # {---- end with >>  ex_helpers.end_example( ex_name ) ----}
     print( f"""{ex_helpers.begin_example( ex_name )}
-          ...
+          example using the helper function eval_and_print
+          eval_and_print is widely used in examples so is good to understand
           """ )
-    ex_helpers.end_example( ex_name )
 
-ex_with_no_content()    # comment out this line to stop example from running
+    code_string  = "foo()"
+    ret  = ex_helpers.eval_and_print( msg          = "code in a function is an expression so eval can run it a lot like exec",
+                                      code         = code_string,
+                                      as_locals    = None,
+                                      as_globals   = globals(), )  # need globals() to get foo in scope
 
-#eval( f"{ex_name}()" )         # run it
-#dis.dis( eval( ex_name ) )    # disassemble it
+    ex_helpers.end_example( ex_name )  #  {---- not part of example, marks end  ----}
+
+ex_using_eval_and_print()    # {---- comment out this line to stop example from running ----}
+
+# other things to do with an example
+#eval( "ex_using_eval_and_print()" )    # {---- run it -- may need to add locals or globals? ----}
+#dis.dis( ex_using_eval_and_print  )    # {---- disassemble it----}
 
 #----------------------------------------
 
