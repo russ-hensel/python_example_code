@@ -16,6 +16,10 @@ Example use:
 Search:
 
     eval
+    exec
+    time
+    timers
+    info
 
 """
 
@@ -173,7 +177,7 @@ def end_example( ex_name ):
 # # ----------------------------------------
 # import ex_helpers
 # def ex_template():
-#     ex_name  = "ex_template"    
+#     ex_name  = "ex_template"
 #         # not part of example, marks end
 #     print( f"""{ex_helpers.begin_example( ex_name )}
 #     template showing
@@ -183,7 +187,7 @@ def end_example( ex_name ):
 
 #     print( "thats all folks" )
 
-#     ex_helpers.end_example( ex_name )   
+#     ex_helpers.end_example( ex_name )
 
 # #ex_template()
 
@@ -314,7 +318,7 @@ def  info_about_dict( a_obj, msg = "for a dict:" ):
         msg    a message to be printed has default
 
     Returns:
-        prints output 
+        prints output
     Example Call:
         ex_helpers.info_about_dict( a_obj, msg = "info_about_dict:" )
 
@@ -439,11 +443,11 @@ def str_about_dict( a_obj, msg = "for a dict:", starting_indent = "" ):
     Purpose:
         may be a leftover or not
     Args:
-        a_obj object to be examined 
-        msg    message to print 
+        a_obj object to be examined
+        msg    message to print
 
     Returns:
-        print output 
+        print output
         str
 
     """
@@ -493,7 +497,7 @@ def show_timedelta( delta ):
 
     print(  f"60 * 60 * 24   {60 * 60 * 24}"  )
 
- 
+
 # ---- eval which is best ?? newest at top see test_helpers
 # nextcurrently best, perhaps become only
 # ----------------------------------------
@@ -541,15 +545,15 @@ def exec_and_print( msg          = None,
     indent   = "    "
     a_str    = "\n"
     if msg is not None:
-        a_str     = f"{a_str}{msg}:\n{indent}{code} ==>"
+        a_str     = f"Exec:  {a_str}{msg}:\n{indent}{code} ==>"
     else:
-        a_str     = f'{code} ==>'
+        a_str     = f'Exec:  {code} ==>'
 
     try:
         exec_to  = exec( code, as_globals, as_locals ) # return will be None
 
     except Exception as an_exception:
-        a_str        = f'{a_str}\n{indent}exec caused exception {an_exception}'
+        a_str        = f'{a_str}\n{indent}**** exec caused exception {an_exception}'
 
     else:  # no exception
         a_str        = f'{a_str}\n{indent}{indent}>>executed without an exception<<'
@@ -622,7 +626,7 @@ def eval_and_print( msg          = None,
         eval_to    = eval( code, as_globals, as_locals )
     except Exception as an_exception:
         #ret        = f"eval caused exception {an_exception}"
-        a_str        = f'{a_str}\n{indent}eval caused exception {an_exception}'
+        a_str        = f'{a_str}\n{indent}**** eval caused exception {an_exception}'
     else:  # no exception
         a_str        = f'{a_str}\n{indent}{indent}>>{eval_to}<<'
     # if msg is None:
@@ -650,7 +654,7 @@ def eval_and_print( msg          = None,
 def print_eval( eval_string, msg = "Next eval the string", gl = None, lo = None  ):
     """
     Purpose:
-        deprecated soon to be gone 
+        deprecated soon to be gone
         show string and show its eval
         probably should not be used, favor function above
         what it says, read

@@ -1,118 +1,65 @@
 # -*- coding: utf-8 -*-
 #>>>>>python example timing of different code for speed differences or just timing
-
-
-
-# for timings consider code in ex_helpers
-
-
-
 """
-samples
-see also ex_run_fast.py ... combine and eliminate one
+Purpose:   Example timing of different code for speed differences
+           purpose is not so much to have you run the fastest
+           but often to show what you think is fastest is not, or
+           only faster by a small amount.
+           Often the faster is actually better in other respects
+           in addition to speed
 
-Python Code Optimization Tips and Tricks You Should Know
-    *>url  https://www.techbeamers.com/python-code-optimization-tips-tricks/#h1
+Status: seems to offer some useful info.
 
+See Also:
+    ex_helpers.py
 
+Search for the following in the code below:
 
-"""
-"""
-time.clock
-image_files')
-[-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-for append code took 3.9399994420818985e-05 seconds
-[85, 68, 53, 40, 29, 20, 13, 8, 5, 4, 5, 8, 13, 20, 29, 40, 53, 68, 85, 104]
-[85, 68, 53, 40, 29, 20, 13, 8, 5, 4, 5, 8, 13, 20, 29, 40, 53, 68, 85, 104]
-D:\Russ\0000\python00\python3\_projects\image_files\ex_mathplotlib_vivek.py:51:
-    DeprecationWarning: time.clock has been deprecated in Python 3.3 and will be removed from Python 3.8: use time.perf_counter or time.process_time instead
-  start_time  = time.clock()
-D:\Russ\0000\python00\python3\_projects\image_files\ex_mathplotlib_vivek.py:56:
-    DeprecationWarning: time.clock has been deprecated in Python 3.3 and will be removed from Python 3.8: use time.perf_counter or time.process_time instead
-  end_time         = time.clock()
+    def ex_          begins all examples
 
-local class  reference
+    call
+    code timer
+    cProfile
+    codetimer
+    dict
+    else
+    except
+    if
+    inline
+    local variable
+    perf_counter
+    Profile
+    sort
+    time
+    try
 
- 
+References:
+
+    Python Code Optimization Tips and Tricks You Should Know
+        *>url  https://www.techbeamers.com/python-code-optimization-tips-tricks/#h1
+
+    Mike Müller - Faster Python Programs - Measure, don't Guess - PyCon 2019 - YouTube
+        *>url  https://www.youtube.com/watch?reload=9&v=EcGWDNlGTNg
+
+Note:
+    Sometimes running the code again gives different results so some examples run the
+    same code more than once.
+
 """
 
 import datetime
 import time
 import sys
-sys.path.append( r"D:\Russ\0000\python00\python3\_examples"  )
-import ex_helpers
-
-
-# -*- coding: utf-8 -*-
-
- 
-"""
-
-
-What:   examples to help code run faster
-        purpose is not so much to have you run the fastest
-        but often to show what you think is fastest is not, or
-        only faster by a small amount.
-        Often the fastes is actually better in other respects
-        in addition to speed
-
-Status: seems to offer some useful info.
-
-
-
-Notes:
-        some of these make claims withot timings,
-            still need add the timings
-            and perhaps add profiling??
-
-        A second running of the code in an example seems
-        to often run faster than the first time, so some examples
-        repeat the first run at the end of the example
-
-        see also ex_timings.py
-
-
-Refs:
-
-Mike Müller - Faster Python Programs - Measure, don't Guess - PyCon 2019 - YouTube
-    *>url  https://www.youtube.com/watch?reload=9&v=EcGWDNlGTNg
-
-You can install these with ``conda`` or ``pip`` (in the active ``conda`` environment):
-
-* [SnakeViz][3]
-* [Pympler][5]
-* [line_profiler][4]
-* [memory_profiler][6]
-
-
-conda install SnakeViz
-conda install Pympler
-conda install line_profiler
-conda install memory_profiler
-
-Search:
-    ex_timings.py
-    ex_run_fast.py
-    time
-    code timer
-    codetimer
-    perf_counter
- 
-"""
-
-import time
-import sys
+import timeit
+import cProfile
 
 import ex_helpers
 
-
-# ---- Setup code to be timed
-# ------------------- helper
-# Python program to illustrate trying
-# to use local variables to make code
-# run faster
+# ------------------- helpers
 class TestClass(  ):
-
+    """
+    simple class for testing, read
+    """
     def func( self ,x ):
         tot   = x + x
         #print( x + x )
@@ -129,9 +76,7 @@ class TestClass(  ):
     def __init__( self ):
         self.instance_var   = 37
 
-
 # ----------------------------------------
-# ----- some helpers
 def function_0( x ):
     tot   = x + x
     return tot
@@ -207,7 +152,7 @@ def ex_dict_dispatch():
 
     a_code_timer.report()
 
-    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_helpers.end_example( ex_name )   
 
 #ex_dict_dispatch()              # run it
 #eval( "ex_dict_dispatch()" )    # run it with eval
@@ -215,7 +160,7 @@ def ex_dict_dispatch():
 
 # ----------------------------------------
 def ex_call_or_inline():
-    ex_name  = "ex_call_or_inline"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_call_or_inline"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     call seems about 4 times as expensive as add of 2 ints inline
     """)
@@ -259,10 +204,9 @@ def ex_call_or_inline():
 
 #ex_call_or_inline()
 
-
 # ----------------------------------------
 def ex_mod_or_count():
-    ex_name  = "ex_mod_or_count"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_mod_or_count"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     in a loop we can use a counter instead of modulo which involves
     the expensive operation of division
@@ -296,7 +240,6 @@ def ex_mod_or_count():
 
     a_code_timer.stop(   )
 
-
     a_code_timer.start( "Count 0 again" )
 
     ix  = 0
@@ -315,10 +258,9 @@ def ex_mod_or_count():
 
 #ex_mod_or_count()
 
-
 # ----------------------------------------
 def ex_if_or_else():
-    ex_name  = "ex_if_or_else"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_if_or_else"   
     print( f"""{ex_helpers.begin_example( ex_name )}
     question: is the if case or else case faster?
     Last test: mostly else !!
@@ -330,7 +272,6 @@ def ex_if_or_else():
 
     a_code_timer.start( "Mostly else is executed" )
 
-    #ix  = 0
     for i in range( loop_max ):
 
         if  i % modulo == 0:
@@ -357,14 +298,11 @@ def ex_if_or_else():
 
     ex_helpers.end_example( ex_name )
 
-# ex_if_or_else()
-
-
-
+#ex_if_or_else()
 
 # ----------------------------------------
 def ex_local_var():
-    ex_name  = "ex_local_var"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_local_var"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     compare local variable use to class instance variable
     here the variable is a function
@@ -410,7 +348,7 @@ def ex_local_var():
 
 # ----------------------------------------
 def ex_local_var_2():
-    ex_name  = "ex_local_var_2"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_local_var_2"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     compare local variable use to class instance variable
     here the variable is a function
@@ -473,7 +411,7 @@ def ex_local_var_2():
 
 # ----------------------------------------
 def ex_local_var_3():
-    ex_name  = "ex_local_var_3"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_local_var_3"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     compare local variable use to class instance variable -- just a few uses
     last test showed even 2 uses makes it useful to go local
@@ -485,7 +423,7 @@ def ex_local_var_3():
     a_test_class    = TestClass()
     test_fun        = a_test_class.func # Declaring local variable
 
-    loop_max   = 1000
+    loop_max        = 1000
 
     a_code_timer = ex_helpers.CodeTimer()
 
@@ -512,7 +450,7 @@ def ex_local_var_3():
 
 # ----------------------------------------
 def ex_try():
-    ex_name  = "ex_try"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_try"    
     print( f"""{ex_helpers.begin_example( ex_name )}
 
     Question: how expensive is try catch
@@ -524,7 +462,6 @@ def ex_try():
 
     for i in range( loop_max ):
         squ   = i*i
-
 
     # ---- no try
     a_code_timer.start( "Without try ver 0" )
@@ -581,26 +518,21 @@ def ex_try():
 
 #ex_try()
 
-
 # ----------------------------------------
 def ex_time_some_code():
-    ex_name  = "ex_time_some_code"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_time_some_code"   
     print( f"""{ex_helpers.begin_example( ex_name )}
     bunch of conversions from web  good: keep
-    ref to ex_timings.py
     see also  ex_dicct_dispach
     """ )
-
-    timestamp       = 1226527167.595983
-    loop_max        = int( 1e5 )
-
     # code_timer
-    code_timer    = ex_helpers.CodeTimer()
-    msg           = f"\nfor {loop_max} itterations code took - using CodeTimer"
-    code_timer.reset(  )
+    code_timer      = ex_helpers.CodeTimer()
+    msg             = f"\nfor {loop_max} itterations code took - using CodeTimer"
 
     timestamp       = 1226527167.595983
     loop_max        = int( 1e5 )
+
+    code_timer.start(  )
     for ix in range( 1, loop_max  ):
 
           time_tuple = time.gmtime( timestamp )
@@ -615,13 +547,12 @@ def ex_time_some_code():
 
 # ----------------------------------------
 def ex_built_in_map():
-    ex_name  = "ex_built_in_map"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_built_in_map"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     not a great example because of course append is a slow way, compare instead to list comp
     """)
     # Python program to illustrate library functions
     # save time while coding with the example of map()
-
 
     # slower (Without map())
     start = time.clock()
@@ -645,17 +576,15 @@ def ex_built_in_map():
 
     ex_helpers.end_example( ex_name )
 
-
 #ex_built_in_map()
-
 
 # ----------------------------------------
 def ex_sort():
-    ex_name  = "ex_sort"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_sort"    
     print( f"""{ex_helpers.begin_example( ex_name )}
-    should be in some other examaple like ex_lists.py
+          looks like unfinished
+          should be in some other examaple like ex_lists.py?
     """)
-
     # Python program to illustrate
     # using keys for sorting
     somelist = [1, -3, 6, 11, 5]
@@ -671,14 +600,13 @@ def ex_sort():
 
 #ex_sort()
 
-
 # ----------------------------------------
 def ex_idiomatic():
-    ex_name  = "ex_idiomatic"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_idiomatic"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     misc examples, without comparison
+    probably should be finished if you are interested
     """)
-
     # Python program to illustrate using
     # optimized loops for faster coding
 
@@ -719,15 +647,11 @@ def ex_idiomatic():
     ex_helpers.end_example( ex_name )
 
 #ex_idiomatic()
-
-
-
+ 
 # ----------- helper
 def repeat_it(   ):
     """
     just some code to profile
-
-
     """
     repeat = 100_000
     a      = 100
@@ -738,17 +662,13 @@ def repeat_it(   ):
 
 
 # next is also a kind of introspection
-import timeit
-
-import cProfile
-
 """
 The Python Profilers — Python 3.7.4 documentation
     *>url  https://docs.python.org/3/library/profile.html
 """
 # ----------------------------------------
 def ex_c_profile():
-    ex_name  = "ex_c_profile"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_c_profile"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     """)
 
@@ -758,42 +678,18 @@ def ex_c_profile():
     profiler.print_stats()
     profiler.dump_stats("result.txt")
     #print( f" a _profile = {a_profile}"  )
-    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_helpers.end_example( ex_name )   
 
 #ex_c_profile()
-
-
-
-
-
-
-
-
-
-
-# ---- old timinging without timing utility ========================
-
-# ----------------------------------------
-def ex_template():
-    ex_name  = "ex_template"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
-    print( f"""{ex_helpers.begin_example( ex_name )} template showing use of begin_example, end-example  ===============
-    """ )
-
-    print( "thats all folks" )
-
-    ex_helpers.end_example( ex_name )
-
-#ex_template()
-
-
-
+ 
+# ---- old timinging without timing utility might work or not ========================
+ 
 # ----------------------------------------
 def ex_time_some_code():
-    ex_name  = "ex_template"   # end with >>    ex_helpers.end_example( ex_name )  # not part of example, marks end
+    ex_name  = "ex_template"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     bunch of conversions from web  good: keep   ===============
     """ )
-
     start           = time.time()
     perf_start      = time.perf_counter()
 
@@ -803,8 +699,8 @@ def ex_time_some_code():
 
           time_tuple = time.gmtime( timestamp )
 
-    end             = time.time()
-    perf_end        = time.perf_counter()
+    end              = time.time()
+    perf_end         = time.perf_counter()
 
     print( f"for {loop_max} itterations code took" )
 
@@ -821,8 +717,8 @@ def ex_time_some_code():
 
     timestamp       = 1226527167.595983
     loop_max        = int( 1e5 )
+    
     for ix in range( 1, loop_max  ):
-
           time_tuple = time.gmtime( timestamp )
 
     code_timer.stop()
@@ -847,8 +743,6 @@ def ex_time_some_code():
 
 #ex_time_some_code()
 
-
-
 #------------helper object -----------------------------
 class Pet(object):
 
@@ -870,11 +764,9 @@ class Pet(object):
         return f"{self.name} is a {self.species} "
 
 
-    class_age   = 0
-
 # ----------------------------------------
 def ex_time_class_access():
-    ex_name  = "ex_time_class_access"    # end with ex_helpers.end_example( ex_name )
+    ex_name  = "ex_time_class_access"    
     print( f"""{ex_helpers.begin_example( ex_name )}
     class, instance and local versions   ===============
     python might be smart enough to cache ??
@@ -889,7 +781,6 @@ def ex_time_class_access():
     msg   = "instance reference       "
 
     start = time.time()
-
 
     total           = 0
     for ix in range( 1, loop_max  ):
@@ -922,14 +813,11 @@ def ex_time_class_access():
     # this uses a local rev
     start = time.time()     # yes it is faster
     for ix in range( 1, loop_max  ):
-
            total    = total +  l_age
            total    = total -  l_age
 
     end = time.time()
     print( f"{msg} for {loop_max} itterations code took {end - start} seconds")
-
-
 
     # --------------------------
     age             = a_pet.age
@@ -938,14 +826,11 @@ def ex_time_class_access():
     # this uses a local rev
     start = time.time()     # yes it is faster
     for ix in range( 1, loop_max  ):
-
            total    = total +  age
            total    = total -  age
 
     end = time.time()
     print( f"{msg} for {loop_max} itterations code took {end - start} seconds")
-
-
 
     # --------------------------
     total           = 0
@@ -978,7 +863,6 @@ def ex_time_class_access():
     end = time.time()
     print( f"{msg} for {loop_max} itterations code took {end - start} seconds")
 
-
     # --------------------------
     total           = 0
     age             = Pet.class_age
@@ -994,7 +878,6 @@ def ex_time_class_access():
 
     end = time.time()
     print( f"{msg} for {loop_max} itterations code took {end - start} seconds")
-
 
 # ex_time_class_access()
 
